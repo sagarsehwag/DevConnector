@@ -15,9 +15,11 @@ app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/posts", require("./routes/api/posts"));
 app.use("/api/profile", require("./routes/api/profile"));
 
-// Test Route
 app.get("/", (req, res) => {
-	res.send("API Running");
+	res.json({
+		success: true,
+		message: "Welcome to DevConnector API"
+	});
 });
 
 // Server Initialisation
