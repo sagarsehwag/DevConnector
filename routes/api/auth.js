@@ -14,10 +14,13 @@ const User = require("../../models/User");
 router.get("/", auth, async (req, res) => {
 	try {
 		const user = await User.findById(req.user.id).select("-password");
-		res.json(user);
+		res.json({
+			success: true,
+			user: user
+		});
 	} catch (err) {
 		console.log(err);
-		res.status(500).json({ msg: "Server Error" });
+		res.status(500).json({ success: false, message: "Server Error" });
 	}
 });
 
@@ -32,7 +35,7 @@ router.post(
 		// Check for validation errors
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
-			return res.status(400).json({ errors: errors.array() });
+			return res.status(400).json({ success: false, errors: errors.array() });
 		}
 
 		const { email, password } = req.body;
@@ -41,20 +44,24 @@ router.post(
 			// Find User
 			let user = await User.findOne({ email: email });
 			if (!user) {
-				return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
+				return res
+					.status(400)
+					.json({ success: false, errors: [{ msg: "Invalid Credentials" }] });
 			}
 
 			// Checking for password
 			const isMatch = await bcrypt.compare(password, user.password);
 			if (!isMatch) {
-				return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
+				return res
+					.status(400)
+					.json({ success: false, errors: [{ msg: "Invalid Credentials" }] });
 			}
 
 			// JWT Logic
 			const payload = { user: { id: user.id } };
 			jwt.sign(payload, config.get("jwtSecret"), { expiresIn: 360000 }, (err, token) => {
 				if (err) throw err;
-				res.json({ token });
+				res.json({ success: true, token });
 			});
 		} catch (err) {
 			console.error(err);

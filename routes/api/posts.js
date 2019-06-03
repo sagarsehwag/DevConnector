@@ -26,7 +26,6 @@ router.post(
 
 		try {
 			const user = await User.findById(req.user.id).select("-password");
-
 			const newPost = new Post({
 				text: req.body.text,
 				name: user.name,
@@ -35,10 +34,10 @@ router.post(
 			});
 
 			const post = await newPost.save();
-			res.json(post);
+			res.json({ success: true, post });
 		} catch (err) {
 			console.log(err);
-			res.status(500).send("Server Error");
+			res.status(500).json({ success: false, message: "Server Error" });
 		}
 	}
 );
@@ -134,10 +133,14 @@ router.put("/unlike/:id", auth, async (req, res) => {
 		// Check if the post has already been liked by the user
 
 		if (post.likes.filter((like) => like.user.toString() == req.user.id).length === 0) {
-			return res.status(400).json({ success: false, message: "Post has not yet been liked" });
+			return res
+				.status(400)
+				.json({ success: false, message: "Post has not yet been liked" });
 		}
 
-		const removeIndex = post.likes.map((like) => like.user.toString()).indexOf(req.user.id);
+		const removeIndex = post.likes
+			.map((like) => like.user.toString())
+			.indexOf(req.user.id);
 		post.likes.splice(removeIndex, 1);
 
 		await post.save();
@@ -203,7 +206,9 @@ router.delete("/comment/:id/:commentId", auth, async (req, res) => {
 			return res.status(401).json({ success: false, message: "user not authorized" });
 		}
 
-		const removeIndex = post.comments.map((comment) => comment.user.toString()).indexOf(req.user.id);
+		const removeIndex = post.comments
+			.map((comment) => comment.user.toString())
+			.indexOf(req.user.id);
 		post.comments.splice(removeIndex, 1);
 
 		await post.save();
