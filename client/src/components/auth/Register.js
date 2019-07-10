@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
 
 const Register = (props) => {
 	const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ const Register = (props) => {
 	});
 
 	const { name, email, password, password2 } = formData;
-	const { setAlert } = props;
+	const { setAlert, register } = props;
 
 	const onChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,7 +26,7 @@ const Register = (props) => {
 		if (password !== password2) {
 			setAlert("Password does not match", "danger");
 		} else {
-			console.log("Password matches successfully");
+			register({ name, email, password });
 		}
 	};
 
@@ -44,7 +45,6 @@ const Register = (props) => {
 						className="form-control"
 						value={name}
 						onChange={(e) => onChange(e)}
-						required
 					/>
 				</div>
 				<div className="form-group">
@@ -94,17 +94,19 @@ const Register = (props) => {
 };
 
 Register.propTypes = {
-	setAlet: PropTypes.func.isRequired
+	setAlert: PropTypes.func.isRequired,
+	register: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
 	return {
-		// isAuthenticated: state.auth.isAuthenticated
+		isAuthenticated: state.auth.isAuthenticated
 	};
 };
 
 const mapDispatchToProps = {
-	setAlert
+	setAlert,
+	register
 };
 
 export default connect(
