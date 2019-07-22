@@ -14,9 +14,13 @@ const Navbar = (props) => {
 	const authLinks = (
 		<ul className="navbar-nav ml-auto">
 			<li className="nav-item">
+				<Link className="nav-link" to="#">
+					<i className="fas fa-user mr-1" /> Dashboard
+				</Link>
+			</li>
+			<li className="nav-item">
 				<Link onClick={logout} className="nav-link" to="#">
-					<i className="fas.fa-sign-out-alt" />
-					Logout
+					<i className="fas fa-sign-out-alt mr-1" /> Logout
 				</Link>
 			</li>
 		</ul>
@@ -59,7 +63,7 @@ const Navbar = (props) => {
 				<span className="navbar-toggler-icon" />
 			</button>
 			<div className="collapse navbar-collapse" id="navbarNav">
-				{!loading && <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>}
+				{!loading && isAuthenticated ? authLinks : guestLinks}
 			</div>
 		</nav>
 	);
