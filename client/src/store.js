@@ -3,7 +3,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 
-const initialState = {}; // Empty initialState
+const initialState = {};
 const middlwares = [thunk]; // Array of middlewares
 
 const store = createStore(
