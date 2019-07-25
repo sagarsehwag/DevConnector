@@ -1,7 +1,13 @@
 import axios from "axios";
 
 import { setAlert } from "./alert";
-import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from "./types";
+import {
+	GET_PROFILE,
+	PROFILE_ERROR,
+	UPDATE_PROFILE,
+	CLEAR_PROFILE,
+	ACCOUNT_DELETED
+} from "./types";
 
 export const getCurrentProfile = () => {
 	return async (dispatch) => {
@@ -94,6 +100,81 @@ export const addEducation = (formData, history) => {
 					status: error.response.status
 				}
 			});
+		}
+	};
+};
+
+export const deleteExperience = (id) => {
+	return async (dispatch) => {
+		try {
+			const res = await axios.delete(`/api/profile/experience/${id}`);
+			dispatch({ type: UPDATE_PROFILE, payload: res.data });
+
+			dispatch(setAlert("Experience Removed", "success"));
+		} catch (error) {
+			const errorsArray = error.response.data.errors;
+			if (errorsArray) {
+				errorsArray.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+			}
+
+			dispatch({
+				type: PROFILE_ERROR,
+				payload: {
+					msg: error.response.statusText,
+					status: error.response.status
+				}
+			});
+		}
+	};
+};
+
+export const deleteEducation = (id) => {
+	return async (dispatch) => {
+		try {
+			const res = await axios.delete(`/api/profile/education/${id}`);
+			dispatch({ type: UPDATE_PROFILE, payload: res.data });
+
+			dispatch(setAlert("Education Removed", "success"));
+		} catch (error) {
+			const errorsArray = error.response.data.errors;
+			if (errorsArray) {
+				errorsArray.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+			}
+
+			dispatch({
+				type: PROFILE_ERROR,
+				payload: {
+					msg: error.response.statusText,
+					status: error.response.status
+				}
+			});
+		}
+	};
+};
+
+export const deleteAccount = () => {
+	return async (dispatch) => {
+		if (window.confirm("Are you sure? This cannot be undone")) {
+			try {
+				await axios.delete("/api/profile");
+				dispatch({ type: CLEAR_PROFILE });
+				dispatch({ type: ACCOUNT_DELETED });
+
+				dispatch(setAlert("Account Deleted", "success"));
+			} catch (error) {
+				const errorsArray = error.response.data.errors;
+				if (errorsArray) {
+					errorsArray.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+				}
+
+				dispatch({
+					type: PROFILE_ERROR,
+					payload: {
+						msg: error.response.statusText,
+						status: error.response.status
+					}
+				});
+			}
 		}
 	};
 };

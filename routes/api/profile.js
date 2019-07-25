@@ -7,13 +7,17 @@ const config = require("config");
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const Post = require("../../models/Post");
 
 // @route 	GET api/profile/me
 // @desc  	Test Route
 // @access 	Public
 router.get("/me", auth, async (req, res) => {
 	try {
-		const profile = await Profile.findOne({ user: req.user.id }).populate("user", ["name", "avatar"]);
+		const profile = await Profile.findOne({ user: req.user.id }).populate("user", [
+			"name",
+			"avatar"
+		]);
 		if (!profile) {
 			return res.status(400).json({ msg: "There is not profile for this user" });
 		} else {
@@ -117,7 +121,10 @@ router.get("/", async (req, res) => {
 
 router.get("/user/:user_id", async (req, res) => {
 	try {
-		const profile = await Profile.findOne({ user: req.params.user_id }).populate("user", ["name", "avatar"]);
+		const profile = await Profile.findOne({ user: req.params.user_id }).populate("user", [
+			"name",
+			"avatar"
+		]);
 
 		if (!profile) {
 			res.status(400).json({ msg: "Profile not found" });
@@ -136,6 +143,7 @@ router.get("/user/:user_id", async (req, res) => {
 
 router.delete("/", auth, async (req, res) => {
 	try {
+		await Post.deleteMany({ user: req.user.id });
 		// Remove Profile
 		await Profile.findOneAndRemove({ user: req.user.id });
 		// Remove User
@@ -206,7 +214,9 @@ router.delete("/experience/:exp_id", auth, async (req, res) => {
 			});
 		}
 		// Get remove index
-		const removeIndex = profile.experience.map((item) => item.id).indexOf(req.params.exp_id);
+		const removeIndex = profile.experience
+			.map((item) => item.id)
+			.indexOf(req.params.exp_id);
 
 		profile.experience.splice(removeIndex, 1);
 		await profile.save();
@@ -279,7 +289,9 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
 			});
 		}
 		// Get remove index
-		const removeIndex = profile.education.map((item) => item.id).indexOf(req.params.edu_id);
+		const removeIndex = profile.education
+			.map((item) => item.id)
+			.indexOf(req.params.edu_id);
 
 		profile.education.splice(removeIndex, 1);
 		await profile.save();
@@ -298,9 +310,9 @@ router.get("/github/:username", async (req, res) => {
 		const options = {
 			uri: `https://api.github.com/users/${
 				req.params.username
-			}/repos?per_page=5&sort=created:asc&client_id=${config.get("githubClientId")}&client_secret=${config.get(
-				"githubSecret"
-			)}`,
+			}/repos?per_page=5&sort=created:asc&client_id=${config.get(
+				"githubClientId"
+			)}&client_secret=${config.get("githubSecret")}`,
 			method: "GET",
 			headers: { "user-agent": "node.js" }
 		};
