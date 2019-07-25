@@ -9,6 +9,9 @@ import Login from "./components/auth/Login";
 import Alert from "./components/layout/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/profile/CreateProfile";
+import EditProfile from "./components/profile/EditProfile";
+import AddExperience from "./components/profile/AddExperience";
+import AddEducation from "./components/profile/AddEducation";
 import PrivateRoute from "./components/routing/PrivateRoute";
 
 // Authorisation
@@ -38,6 +41,9 @@ const App = () => {
 							<Route exact path="/login" component={Login} />
 							<PrivateRoute exact path="/dashboard" component={Dashboard} />
 							<PrivateRoute exact path="/create-profile" component={CreateProfile} />
+							<PrivateRoute exact path="/edit-profile" component={EditProfile} />
+							<PrivateRoute exact path="/add-experience" component={AddExperience} />
+							<PrivateRoute exact path="/add-education" component={AddEducation} />
 						</Switch>
 					</section>
 				</Fragment>

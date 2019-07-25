@@ -3,9 +3,14 @@ import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { createProfile } from "../../actions/profile";
+import { createProfile, getCurrentProfile } from "../../actions/profile";
 
-const CreateProfile = ({ createProfile, history }) => {
+const EditProfile = ({
+	profile: { profile, loading },
+	createProfile,
+	getCurrentProfile,
+	history
+}) => {
 	const [formData, setFormData] = useState({
 		company: "",
 		websites: "",
@@ -20,6 +25,25 @@ const CreateProfile = ({ createProfile, history }) => {
 		youtube: "",
 		instagram: ""
 	});
+
+	useEffect(() => {
+		getCurrentProfile();
+
+		setFormData({
+			company: !profile.company ? "" : profile.company,
+			website: !profile.website ? "" : profile.website,
+			location: !profile.location ? "" : profile.location,
+			status: !profile.status ? "" : profile.status,
+			skills: !profile.skills ? "" : profile.skills.join(", "),
+			githubusername: !profile.githubusername ? "" : profile.githubusername,
+			bio: !profile.bio ? "" : profile.bio,
+			twitter: !profile.social ? "" : profile.social.twitter,
+			facebook: !profile.social ? "" : profile.social.facebook,
+			linkedin: !profile.social ? "" : profile.social.linkedin,
+			youtube: !profile.social ? "" : profile.social.youtube,
+			instagram: !profile.social ? "" : profile.social.instagram
+		});
+	}, [loading, profile, getCurrentProfile]);
 
 	const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
@@ -44,7 +68,7 @@ const CreateProfile = ({ createProfile, history }) => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		createProfile(formData, history);
+		createProfile(formData, history, true);
 	};
 
 	return (
@@ -57,7 +81,12 @@ const CreateProfile = ({ createProfile, history }) => {
 			<small>* = required field</small>
 			<form className="form" onSubmit={(e) => onSubmit(e)}>
 				<div className="form-group">
-					<select name="status" className="form-control" onChange={(e) => onChange(e)}>
+					<select
+						name="status"
+						value={status}
+						className="form-control"
+						onChange={(e) => onChange(e)}
+					>
 						<option value={0}>* Select Professional Status</option>
 						<option value="Developer">Developer</option>
 						<option value="Junior Developer">Junior Developer</option>
@@ -217,19 +246,25 @@ const CreateProfile = ({ createProfile, history }) => {
 				)}
 
 				<input type="submit" className="btn btn-primary my-1 mx-2" />
-				<a className="btn btn-primary my-1 mx-2" href="dashboard.html">
+				<Link className="btn btn-primary my-1 mx-2" to="/dashboard">
 					Go Back
-				</a>
+				</Link>
 			</form>
 		</div>
 	);
 };
 
-CreateProfile.propTypes = {
-	createProfile: PropTypes.func.isRequired
+EditProfile.propTypes = {
+	createProfile: PropTypes.func.isRequired,
+	getCurrentProfile: PropTypes.func.isRequired,
+	profile: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => {
+	return { profile: state.profile };
 };
 
 export default connect(
-	null,
-	{ createProfile }
-)(withRouter(CreateProfile));
+	mapStateToProps,
+	{ createProfile, getCurrentProfile }
+)(withRouter(EditProfile));
