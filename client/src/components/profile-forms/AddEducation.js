@@ -83,7 +83,6 @@ const AddEducation = ({ addEducation, history }) => {
 							name="current"
 							className="form-check-input"
 							id="current"
-							defaultValue
 							checked={current}
 							value={current}
 							onChange={(e) => {
@@ -114,7 +113,6 @@ const AddEducation = ({ addEducation, history }) => {
 							cols={30}
 							rows={5}
 							placeholder="Program Description"
-							defaultValue={""}
 							className="form-control"
 							value={description}
 							onChange={(e) => onChange(e)}

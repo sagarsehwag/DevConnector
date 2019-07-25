@@ -27,23 +27,29 @@ const EditProfile = ({
 	});
 
 	useEffect(() => {
+		console.log("First Fuck useEffect");
 		getCurrentProfile();
+	}, [getCurrentProfile]);
 
-		setFormData({
-			company: !profile.company ? "" : profile.company,
-			website: !profile.website ? "" : profile.website,
-			location: !profile.location ? "" : profile.location,
-			status: !profile.status ? "" : profile.status,
-			skills: !profile.skills ? "" : profile.skills.join(", "),
-			githubusername: !profile.githubusername ? "" : profile.githubusername,
-			bio: !profile.bio ? "" : profile.bio,
-			twitter: !profile.social ? "" : profile.social.twitter,
-			facebook: !profile.social ? "" : profile.social.facebook,
-			linkedin: !profile.social ? "" : profile.social.linkedin,
-			youtube: !profile.social ? "" : profile.social.youtube,
-			instagram: !profile.social ? "" : profile.social.instagram
-		});
-	}, [loading, profile, getCurrentProfile]);
+	useEffect(() => {
+		if (!loading) {
+			console.log("Fuck You useEffect");
+			setFormData({
+				company: !profile.company ? "" : profile.company,
+				website: !profile.website ? "" : profile.website,
+				location: !profile.location ? "" : profile.location,
+				status: !profile.status ? "" : profile.status,
+				skills: !profile.skills ? "" : profile.skills.join(", "),
+				githubusername: !profile.githubusername ? "" : profile.githubusername,
+				bio: !profile.bio ? "" : profile.bio,
+				twitter: !profile.social ? "" : profile.social.twitter,
+				facebook: !profile.social ? "" : profile.social.facebook,
+				linkedin: !profile.social ? "" : profile.social.linkedin,
+				youtube: !profile.social ? "" : profile.social.youtube,
+				instagram: !profile.social ? "" : profile.social.instagram
+			});
+		}
+	}, [loading, profile]);
 
 	const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
@@ -73,7 +79,7 @@ const EditProfile = ({
 
 	return (
 		<div>
-			<h1 className="large text-primary">Create Your Profile</h1>
+			<h1 className="large text-primary">Edit Your Profile</h1>
 			<p className="lead">
 				<i className="fas fa-user mr-1" /> Let's get some information to make your profile
 				stand out
@@ -166,7 +172,6 @@ const EditProfile = ({
 					<textarea
 						placeholder="A short bio of yourself"
 						name="bio"
-						defaultValue={""}
 						className="form-control"
 						value={bio}
 						onChange={(e) => onChange(e)}
