@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 import Spinner from "../layout/Spinner";
 import DashboardActions from "./DashboardActions";
+import Experience from "./Experience";
+import Education from "./Education";
 
 import { getCurrentProfile } from "../../actions/profile";
 
@@ -31,7 +33,11 @@ const Dashboard = (props) => {
 				</h3>
 
 				{profile !== null ? (
-					<DashboardActions className="my-1" />
+					<Fragment>
+						<DashboardActions className="my-1" />
+						<Experience experience={profile.experience} />
+						<Education education={profile.education} />
+					</Fragment>
 				) : (
 					<Fragment>
 						<p className="my-1">You have not yet setup profile</p>

@@ -13,7 +13,7 @@ const EditProfile = ({
 }) => {
 	const [formData, setFormData] = useState({
 		company: "",
-		websites: "",
+		website: "",
 		location: "",
 		status: "",
 		skills: "",
