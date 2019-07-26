@@ -3,17 +3,75 @@ import axios from "axios";
 import { setAlert } from "./alert";
 import {
 	GET_PROFILE,
+	GET_PROFILES,
 	PROFILE_ERROR,
 	UPDATE_PROFILE,
 	CLEAR_PROFILE,
-	ACCOUNT_DELETED
+	ACCOUNT_DELETED,
+	GET_REPOS
 } from "./types";
 
+// Get Current User's Profile
 export const getCurrentProfile = () => {
 	return async (dispatch) => {
 		try {
 			const res = await axios.get("/api/profile/me");
 			dispatch({ type: GET_PROFILE, payload: res.data });
+		} catch (error) {
+			dispatch({
+				type: PROFILE_ERROR,
+				payload: {
+					msg: error.response.statusText,
+					status: error.response.status
+				}
+			});
+		}
+	};
+};
+
+// Get Profile by UserId
+export const getProfileById = (userId) => {
+	return async (dispatch) => {
+		try {
+			const res = await axios.get(`/api/profile/user/${userId}`);
+			dispatch({ type: GET_PROFILE, payload: res.data });
+		} catch (error) {
+			dispatch({
+				type: PROFILE_ERROR,
+				payload: {
+					msg: error.response.statusText,
+					status: error.response.status
+				}
+			});
+		}
+	};
+};
+
+// Get Github Repos
+export const getGithubRepos = (username) => {
+	return async (dispatch) => {
+		try {
+			const res = await axios.get(`/api/profile/github/${username}`);
+			dispatch({ type: GET_PROFILES, payload: res.data });
+		} catch (error) {
+			dispatch({
+				type: GET_REPOS,
+				payload: {
+					msg: error.response.statusText,
+					status: error.response.status
+				}
+			});
+		}
+	};
+};
+
+// Get All Profiles
+export const getProfiles = () => {
+	return async (dispatch) => {
+		try {
+			dispatch({ type: CLEAR_PROFILE });
+			const res = await axios.get("/api/profile");
+			dispatch({ type: GET_PROFILES, payload: res.data });
 		} catch (error) {
 			dispatch({
 				type: PROFILE_ERROR,
@@ -56,6 +114,7 @@ export const createProfile = (formData, history, edit = false) => {
 	};
 };
 
+// Add Experience
 export const addExperience = (formData, history) => {
 	return async (dispatch) => {
 		try {
@@ -80,6 +139,7 @@ export const addExperience = (formData, history) => {
 	};
 };
 
+// Add Education
 export const addEducation = (formData, history) => {
 	return async (dispatch) => {
 		try {
@@ -104,6 +164,7 @@ export const addEducation = (formData, history) => {
 	};
 };
 
+// Delete Experience
 export const deleteExperience = (id) => {
 	return async (dispatch) => {
 		try {
