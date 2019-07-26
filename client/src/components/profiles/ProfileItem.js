@@ -12,7 +12,7 @@ function ProfileItem({
 	}
 }) {
 	return (
-		<div className="card my-5 rounded bg-dark">
+		<div className="card my-5 rounded">
 			<div className="profile row">
 				<img src={avatar} alt="" className="rounded-circle mx-4 my-4 col" />
 				<div className="col my-4 py-5">
@@ -21,7 +21,7 @@ function ProfileItem({
 						{status} {company ? <span> at {company}</span> : ""}
 					</p>
 					<p className="my-1">{location ? <span>{location}</span> : ""}</p>
-					<Link to={`profile/${_id}`} className="">
+					<Link to={`profile/${_id}`} className="btn btn-primary">
 						View Profile
 					</Link>
 				</div>
