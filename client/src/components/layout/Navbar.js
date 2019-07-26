@@ -14,7 +14,12 @@ const Navbar = (props) => {
 	const authLinks = (
 		<ul className="navbar-nav ml-auto">
 			<li className="nav-item">
-				<Link className="nav-link" to="#">
+				<Link className="nav-link" to="/profiles">
+					Developers
+				</Link>
+			</li>
+			<li className="nav-item">
+				<Link className="nav-link" to="/dashboard">
 					<i className="fas fa-user mr-1" /> Dashboard
 				</Link>
 			</li>
@@ -29,7 +34,7 @@ const Navbar = (props) => {
 	const guestLinks = (
 		<ul className="navbar-nav ml-auto">
 			<li className="nav-item">
-				<Link className="nav-link" to="#">
+				<Link className="nav-link" to="/profiles">
 					Developers
 				</Link>
 			</li>
