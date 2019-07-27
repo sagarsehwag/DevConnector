@@ -222,7 +222,7 @@ const CreateProfile = ({ createProfile, history }) => {
 				)}
 
 				<input type="submit" className="btn btn-primary my-1 mx-2" />
-				<Link className="btn btn-primary my-1 mx-2" href="dashboard.html">
+				<Link className="btn btn-dark my-1 mx-2" href="dashboard.html">
 					Go Back
 				</Link>
 			</form>

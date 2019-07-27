@@ -12,7 +12,7 @@ function ProfileItem({
 	}
 }) {
 	return (
-		<div className="card my-5 rounded">
+		<div className="card my-5 rounded bg-light">
 			<div className="profile row">
 				<img src={avatar} alt="" className="rounded-circle mx-4 my-4 col" />
 				<div className="col my-4 py-5">
