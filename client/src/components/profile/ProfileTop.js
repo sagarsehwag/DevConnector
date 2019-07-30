@@ -16,7 +16,7 @@ const ProfileTop = ({
 			<img className="rounded-circle my-1 mx-auto row" src={avatar} alt="" />
 			<h1 className="mx-auto row">{name}</h1>
 			<p className="row mx-auto">
-				{status} {company ? <span> at {company}</span> : ""}
+				{status} {"at"} {company ? <span> {company}</span> : ""}
 			</p>
 			<p>{location ? <span>{location}</span> : ""}</p>
 			<div className="icons my-1 row mx-auto">

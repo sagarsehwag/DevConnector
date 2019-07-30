@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import ProfileTop from "./ProfileTop";
 import ProfileAbout from "./ProfileAbout";
+import ProfileExperience from "./ProfileExperience";
+import ProfileEducation from "./ProfileEducation";
+import ProfileGithub from "./ProfileGithub";
 import { getProfileById } from "../../actions/profile";
 
 function Profile({
@@ -37,6 +40,9 @@ function Profile({
 
 					<ProfileTop profile={profile} />
 					<ProfileAbout profile={profile} />
+					<ProfileExperience profile={profile} />
+					<ProfileEducation profile={profile} />
+					<ProfileGithub username={profile.githubusername} />
 				</Fragment>
 			)}
 		</Fragment>
