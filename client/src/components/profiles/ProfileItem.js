@@ -12,9 +12,9 @@ function ProfileItem({
 	}
 }) {
 	return (
-		<div className="card my-5 rounded bg-light">
+		<div className="my-1 rounded bg-light border">
 			<div className="profile row">
-				<img src={avatar} alt="" className="rounded-circle mx-4 my-4 col" />
+				<img src={avatar} alt="" className="rounded-circle mx-4 my-4 col-3" />
 				<div className="col my-4 py-5">
 					<h2>{name}</h2>
 					<p>

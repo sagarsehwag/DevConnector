@@ -17,7 +17,7 @@ function Profiles({ getProfiles, profile: { profiles, loading } }) {
 				<Spinner />
 			) : (
 				<Fragment>
-					<h1 className="large text-primary">Developers</h1>
+					<h1>Developers</h1>
 					<p>
 						<i className="fab fa-connectdevelop mr-1" />
 						Browser & Connect with Developers
